@@ -52,6 +52,8 @@ public class jTableUts extends javax.swing.JFrame {
         jTextField8 = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
+        jLabel11 = new javax.swing.JLabel();
+        jLabel12 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -94,7 +96,7 @@ public class jTableUts extends javax.swing.JFrame {
 
         jLabel9.setText("Ujian");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "2", "3", "4" }));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Pilih", "2", "3", "4" }));
         jComboBox1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBox1ActionPerformed(evt);
@@ -109,6 +111,10 @@ public class jTableUts extends javax.swing.JFrame {
                 jButton1ActionPerformed(evt);
             }
         });
+
+        jLabel11.setText("-");
+
+        jLabel12.setText("-");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -147,8 +153,14 @@ public class jTableUts extends javax.swing.JFrame {
                                     .addComponent(jTextField5, javax.swing.GroupLayout.Alignment.LEADING))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel6)
-                                    .addComponent(jLabel8)))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel6)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(jLabel11))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel8)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(jLabel12))))
                             .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -181,12 +193,14 @@ public class jTableUts extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel6)
-                    .addComponent(jLabel5))
+                    .addComponent(jLabel5)
+                    .addComponent(jLabel11))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
                     .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel8))
+                    .addComponent(jLabel8)
+                    .addComponent(jLabel12))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel9)
@@ -212,20 +226,33 @@ public class jTableUts extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextField2KeyTyped
 
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
-        int ujian = Integer.parseInt(jComboBox1.getSelectedItem().toString());
-        int biaya = Integer.parseInt(jTextField4.getText());
-        int potPend     = Integer.parseInt(jTextField5.getText());
-        int potBiaya    = Integer.parseInt(jTextField6.getText());
-        
-        double bUjian = ujian * 15000;
-        double t_biaya = biaya - ((biaya*potBiaya)/100);
-        double t_pend   = 50000 - ((50000*potPend)/100);
-        
-        double total = bUjian+t_biaya+t_pend;
-        
-        jTextField7.setText(String.valueOf(bUjian));
-        jTextField8.setText(String.valueOf(total));
-        
+        String uji = jComboBox1.getSelectedItem().toString();
+        //jika ujian bernilai "Pilih" maka tidak akan muncul error, namun jika dirubah dalam nilai 2,3,4
+        //maka akan dilakukan perhitungan aritmatik
+        if(uji.equals("Pilih")) {
+            //
+        } else {
+            //mengambil nilai dari comboBox1 yang dipilih
+            int ujian = Integer.parseInt(jComboBox1.getSelectedItem().toString());
+
+            //mengambil nilai dari jTextfield Biaya, Potongan Pendaftaran dan Potongan Biaya
+            int biaya = Integer.parseInt(jTextField4.getText());
+            int potPend     = Integer.parseInt(jTextField5.getText());
+            int potBiaya    = Integer.parseInt(jTextField6.getText());
+
+            //Menghitung Biaya
+            double bUjian = ujian * 15000; //Jumlah Biaya Ujian
+            double t_biaya = biaya - ((biaya*potBiaya)/100); //Biaya Nominal dikurangi potongan
+            double t_pend   = 50000 - ((50000*potPend)/100); //biaya pendaftaran dikurangi potongan
+
+            double total = bUjian+t_biaya+t_pend; //total biaya
+
+            //menampilkan hasil
+            jTextField7.setText(String.valueOf(bUjian));
+            jTextField8.setText(String.valueOf(total));
+            jLabel11.setText(String.valueOf(t_pend));
+            jLabel12.setText(String.valueOf(t_biaya));
+        }  
     }//GEN-LAST:event_jComboBox1ActionPerformed
 
     private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
@@ -238,24 +265,43 @@ public class jTableUts extends javax.swing.JFrame {
         } else if(nilai > 70) {
             jTextField3.setText("Paket II");
             jTextField4.setText("350000");
-            jTextField5.setText("25");
+            jTextField5.setText("15");
             jTextField6.setText("0");
-        } else {
+        } else if(nilai <=70) {
             jTextField3.setText("Paket I");
-            jTextField4.setText("200000");
+            jTextField4.setText("240000");
             jTextField5.setText("0");
             jTextField6.setText("0");
+        } else {
+            
         }
     }//GEN-LAST:event_jTextField2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        String nama = jTextField1.getText();
-        String paket = jTextField3.getText();
-        String ujian = jComboBox1.getSelectedItem().toString();
-        String total = jTextField8.getText();
+        String nama = jTextField1.getText(); //mengambil nilai pada jTextField1 berupa nama
+        String paket = jTextField3.getText(); //mengambil nilai pada jTextField1 berupa paket
+        String ujian = jComboBox1.getSelectedItem().toString(); //mengambil nilai pada jTextField1 berupa ujian
+        String total = jTextField8.getText(); //mengambil nilai pada jTextField1 berupa total
         
+        //membuat tabel model
         DefaultTableModel tblModel = (DefaultTableModel) jTable1.getModel();
+        
+        //menambahkan pada tabel sebuah row
         tblModel.addRow(new Object[] {nama, paket, ujian, total});
+        
+        //membuat nilai pada TextField kembali kosong
+        jTextField1.setText("");
+        jTextField2.setText("");
+        jTextField3.setText("");
+        jTextField4.setText("");
+        jTextField5.setText("");
+        jTextField6.setText("");
+        jTextField7.setText("");
+        jTextField8.setText("");
+        
+        jComboBox1.setSelectedItem("Pilih");
+        jLabel11.setText("-");
+        jLabel12.setText("-");
     }//GEN-LAST:event_jButton1ActionPerformed
 
 
@@ -300,6 +346,8 @@ public class jTableUts extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
