@@ -14,5 +14,21 @@ import java.sql.SQLException;
  * @author dzikra
  */
 public class dbConnect {
+   public void registerDriver() {
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            System.out.println("SUKSES REGISTER DRIVER MYSQL");
+        } catch (ClassNotFoundException ex) {
+                   
+        }
+    }
     
+    public Connection getConnection() {
+        try {
+            return DriverManager.getConnection("jdbc:mysql://localhost:3306/java_uas","root", "");
+        } catch (SQLException ex) {
+            
+            return null;
+        }
+    } 
 }

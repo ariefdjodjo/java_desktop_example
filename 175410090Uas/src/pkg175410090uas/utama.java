@@ -14,11 +14,18 @@ import java.sql.SQLException;
  * @author dzikra
  */
 public class utama extends javax.swing.JFrame {
-
+    private dbConnect dbConnect;
+    private Connection connection;
+    
     /**
      * Creates new form utama
      */
+    
     public utama() {
+        dbConnect = new dbConnect();
+        dbConnect.registerDriver();
+        this.connection = dbConnect.getConnection();
+        
         initComponents();
     }
 
@@ -104,10 +111,6 @@ public class utama extends javax.swing.JFrame {
 
         jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
-        jTextField1.setText("jTextField1");
-
-        jTextField2.setText("jTextField2");
-
         jButton1.setText("Simpan");
 
         javax.swing.GroupLayout panelFormLayout = new javax.swing.GroupLayout(panelForm);
@@ -150,9 +153,10 @@ public class utama extends javax.swing.JFrame {
                                 .addComponent(cbTgl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton1))))
+                            .addComponent(jButton1)
+                            .addGroup(panelFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(jTextField2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 109, Short.MAX_VALUE)
+                                .addComponent(jTextField1, javax.swing.GroupLayout.Alignment.LEADING)))))
                 .addContainerGap(130, Short.MAX_VALUE))
         );
         panelFormLayout.setVerticalGroup(
@@ -315,6 +319,7 @@ public class utama extends javax.swing.JFrame {
         }
         //</editor-fold>
         /* Create and display the form */
+               
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new utama().setVisible(true);
